@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SBI NRI Account Opening</title>
+  <style>
+    :root {
+      --blue: #0d6efd;
+      --light-blue: #e9f5ff;
+      --text: #222;
+      --border: #ddd;
+      --bg: #f4f6f9;
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: var(--bg);
+      margin: 0;
+      padding: 0;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 40px auto;
+      padding: 20px;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 5px 25px rgba(0, 0, 0, 0.07);
+    }
+
+    h1 {
+      text-align: center;
+      color: var(--blue);
+      margin-bottom: 40px;
+    }
+
+    h2.section-title {
+      background: var(--blue);
+      color: white;
+      padding: 10px 15px;
+      border-radius: 5px;
+      font-size: 18px;
+      margin: 30px 0 15px;
+    }
+
+    label {
+      display: block;
+      margin-top: 15px;
+      font-weight: 500;
+      color: var(--text);
+    }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border: 1px solid var(--border);
+      border-radius: 5px;
+      font-size: 15px;
+    }
+
+    textarea {
+      resize: vertical;
+    }
+
+    .row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .row > div {
+      flex: 1;
+      min-width: 250px;
+    }
+
+    .checkbox-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      margin-top: 10px;
+    }
+
+    .checkbox-group label {
+      display: flex;
+      align-items: center;
+      font-weight: normal;
+    }
+
+    .btn {
+      margin-top: 30px;
+      display: inline-block;
+      background: var(--blue);
+      color: white;
+      border: none;
+      padding: 12px 25px;
+      font-size: 16px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .btn:hover {
+      background: #0056b3;
+    }
+
+    .success-message {
+      text-align: center;
+      color: green;
+      font-weight: bold;
+      display: none;
+    }
+
+    .error {
+      color: red;
+      margin-top: 10px;
+      text-align: center;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    @media (max-width: 768px) {
+      .row > div {
+        min-width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- LOGIN SECTION -->
+  <div class="container" id="loginSection">
+    <h1>Login to SBI NRI Form</h1>
+    <label>Username</label>
+    <input type="text" id="loginUsername" />
+    <label>Password</label>
+    <input type="password" id="loginPassword" />
+    <button class="btn" onclick="handleLogin()">Login</button>
+    <p class="error" id="loginError"></p>
+  </div>
+
+  <!-- MAIN FORM -->
+  <form class="container hidden" id="mainForm" onsubmit="return makePayment()">
+    <h1>SBI NRI Account Opening Form</h1>
+
+    <!-- 1 -->
+    <h2 class="section-title">1. First Applicant - Personal Details</h2>
+    <label>Full Name</label><input type="text" />
+    <div class="row">
+      <div><label>Date of Birth</label><input type="date" /></div>
+      <div><label>Gender</label><select><option>Male</option><option>Female</option></select></div>
+    </div>
+    <label>Nationality</label><input type="text" />
+    <label>PAN Number</label><input type="text" />
+    <label>Father/Guardian Name</label><input type="text" />
+
+    <!-- 2 -->
+    <h2 class="section-title">2. First Applicant - Address & Contact</h2>
+    <label>Overseas Address</label><textarea rows="2"></textarea>
+    <label>Indian Address</label><textarea rows="2"></textarea>
+    <div class="row">
+      <div><label>Email</label><input type="email" /></div>
+      <div><label>Mobile</label><input type="text" /></div>
+    </div>
+
+    <!-- 3 -->
+    <h2 class="section-title">3. Second Applicant - Personal Details</h2>
+    <label>Full Name</label><input type="text" />
+    <div class="row">
+      <div><label>Date of Birth</label><input type="date" /></div>
+      <div><label>Gender</label><select><option>Male</option><option>Female</option></select></div>
+    </div>
+    <label>Nationality</label><input type="text" />
+    <label>PAN Number</label><input type="text" />
+    <label>Father/Guardian Name</label><input type="text" />
+
+    <!-- 4 -->
+    <h2 class="section-title">4. Second Applicant - Address & Contact</h2>
+    <label>Overseas Address</label><textarea rows="2"></textarea>
+    <label>Indian Address</label><textarea rows="2"></textarea>
+    <div class="row">
+      <div><label>Email</label><input type="email" /></div>
+      <div><label>Mobile</label><input type="text" /></div>
+    </div>
+
+    <!-- 5 -->
+    <h2 class="section-title">5. Documents</h2>
+    <label>Proof of Identity</label>
+    <div class="checkbox-group">
+      <label><input type="checkbox" /> Passport Copy</label>
+      <label><input type="checkbox" /> Visa Copy</label>
+      <label><input type="checkbox" /> OCI/PIO Card</label>
+    </div>
+    <label>Address Proof</label>
+    <div class="checkbox-group">
+      <label><input type="checkbox" /> Utility Bill</label>
+      <label><input type="checkbox" /> Bank Statement</label>
+    </div>
+
+    <!-- 6 -->
+    <h2 class="section-title">6. Additional Information</h2>
+    <div class="row">
+      <div><label>Monthly Income (USD)</label><input type="number" /></div>
+      <div><label>Assets (USD)</label><input type="number" /></div>
+    </div>
+    <label>Religion</label>
+    <select><option>Hindu</option><option>Muslim</option><option>Christian</option><option>Other</option></select>
+    <label>Qualification</label>
+    <select><option>Graduate</option><option>Post-Graduate</option><option>Other</option></select>
+    <label>Occupation</label>
+    <select><option>Salaried</option><option>Business</option><option>Student</option><option>Other</option></select>
+
+    <!-- 7 -->
+    <h2 class="section-title">7. Application Fee Payment</h2>
+    <label>Full Name</label><input type="text" required>
+    <label>Amount (INR)</label><input type="number" required min="100">
+
+    <label>Payment Method</label>
+    <select id="paymentMethod" onchange="togglePaymentFields()" required>
+      <option value="">-- Choose Method --</option>
+      <option value="card">Card</option>
+      <option value="upi">UPI</option>
+      <option value="netbanking">Net Banking</option>
+      <option value="wallet">Wallet</option>
+    </select>
+
+    <!-- Card Fields -->
+    <div id="cardFields" class="row hidden">
+      <div><label>Card Number</label><input type="text" placeholder="XXXX XXXX XXXX XXXX" maxlength="16"></div>
+      <div><label>Expiry Date</label><input type="month"></div>
+      <div><label>CVV</label><input type="password" maxlength="3"></div>
+    </div>
+
+    <!-- UPI -->
+    <div id="upiField" class="hidden">
+      <label>UPI ID</label><input type="text" placeholder="yourname@upi">
+    </div>
+
+    <!-- Net Banking -->
+    <div id="netbankingField" class="hidden">
+      <label>Choose Bank</label>
+      <select><option>SBI</option><option>HDFC</option><option>ICICI</option><option>Axis</option></select>
+    </div>
+
+    <!-- Wallet -->
+    <div id="walletField" class="hidden">
+      <label>Select Wallet</label>
+      <div class="checkbox-group">
+        <label><input type="radio" name="wallet" /> Paytm</label>
+        <label><input type="radio" name="wallet" /> PhonePe</label>
+        <label><input type="radio" name="wallet" /> Google Pay</label>
+        <label><input type="radio" name="wallet" /> Amazon Pay</label>
+      </div>
+    </div>
+
+    <button type="submit" class="btn">Submit & Pay</button>
+    <p id="successMsg" class="success-message">✅ Payment successful! Application submitted.</p>
+  </form>
+
+  <script>
+    function handleLogin() {
+      const u = document.getElementById('loginUsername').value.trim();
+      const p = document.getElementById('loginPassword').value.trim();
+      const error = document.getElementById('loginError');
+
+      if (u === 'user' && p === 'sbi123') {
+        document.getElementById('loginSection').classList.add('hidden');
+        document.getElementById('mainForm').classList.remove('hidden');
+      } else {
+        error.textContent = "Invalid login credentials.";
+      }
+    }
+
+    function togglePaymentFields() {
+      const method = document.getElementById('paymentMethod').value;
+      document.getElementById('cardFields').classList.add('hidden');
+      document.getElementById('upiField').classList.add('hidden');
+      document.getElementById('netbankingField').classList.add('hidden');
+      document.getElementById('walletField').classList.add('hidden');
+
+      if (method === 'card') document.getElementById('cardFields').classList.remove('hidden');
+      if (method === 'upi') document.getElementById('upiField').classList.remove('hidden');
+      if (method === 'netbanking') document.getElementById('netbankingField').classList.remove('hidden');
+      if (method === 'wallet') document.getElementById('walletField').classList.remove('hidden');
+    }
+
+    function makePayment() {
+      document.getElementById('successMsg').style.display = 'block';
+      return false; // Prevent form submission
+    }
+  </script>
+
+</body>
+</html>
